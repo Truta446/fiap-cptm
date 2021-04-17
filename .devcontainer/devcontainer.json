@@ -33,7 +33,13 @@
 	"extensions": [
 		"ms-python.python",
 		"visualstudioexptteam.vscodeintellicode",
-		"magicstack.magicpython"
+		"magicstack.magicpython",
+		"davidanson.vscode-markdownlint",
+		"streetsidesoftware.code-spell-checker-portuguese-brazilian",
+		"streetsidesoftware.code-spell-checker",
+		"naumovs.color-highlight",
+		"editorconfig.editorconfig",
+		"ms-toolsai.jupyter"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
