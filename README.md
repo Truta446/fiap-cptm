@@ -22,9 +22,9 @@ A apresentação da empresa, com todas as informações necessárias para o dese
     Altino - 2 veículos 
     Calmon Viana - 3 veículos
 
-## Informações Complementares 
+## Informações Complementares
 
-### 1. Quais os tipos de veículos e suas atividades de manutenção? 
+### 1. Quais os tipos de veículos e suas atividades de manutenção?
 
     1.1 Máquinas de correção geométrica e/ou máquinas especiais: 
         a) Socadora de via corrida (SAP) e AMV (SCP);
@@ -35,13 +35,14 @@ A apresentação da empresa, com todas as informações necessárias para o dese
 
     1.2 Caminhão de linha (GN ou CL) 
 
-### 2. Quais os pátios que os veículos acessam as vias? 
+### 2. Quais os pátios que os veículos acessam as vias?
 
     Linhas 7/10 = Lapa, Francisco Morato, São Caetano. 
     Linhas 8/9 = Presidente Altino. 
     Linhas 11/12 = Calmon Viana. 
 
 ### 3. Qual a distribuição dos veículos na Linhas e suas equipes?
+
     Os veículos descritos no item 1.1 atendem todas as Linhas da CPTM
     As equipes de caminhões de linha item 1.2 são fixas em cada par de Linhas (exceto quando atendidos 
     pela equipe DOVF Operação Plasser/Speno). 
@@ -71,3 +72,25 @@ A apresentação da empresa, com todas as informações necessárias para o dese
     operacional momentânea. 
     Nos pátios da MRS ou outras operadoras de carga o tráfego tem de ser combinado com o empregado 
     destas responsável pelo pátio
+
+### Esboço do algoritmo
+
+    Horário de manutenção: 01:00 AM a 03:30 AM.
+
+### Estratégia principal
+
+1. Utilizar de vias temporárias para facilitar a manobra de tréns nos pátios, começar a recolher os tréns a partir da 00:00 AM, liberar os veículos de manutenção apenás após as 01:00 AM.
+
+2. Para calcular quando um trêm deve voltar devemos estabelecer que ele deve ter 0 passageiros após as 00:00 AM.
+
+3. Desenvolver um algorítimo que simula minutos com base em segundos, para deixar o algorítimo mais real.
+
+4. Calcular tempo médio de retorno de ponta A a ponto B para aplicar estrátégias de recolhimento, assim evitando que um trêm não retorne a tempo antes do horário comercial.
+
+5. Criar um objeto trêm com própriedades como:
+
+- Nome
+- Pátio
+- Pátio atual (pode ser nulo)
+- Estação atual (pode ser nulo)
+- Horário de manutenção
