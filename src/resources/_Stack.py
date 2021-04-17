@@ -1,17 +1,20 @@
-from src.entities import Train
+from typing import List
 
+from src.entities import Parking, Train
+
+# Pilha de patios
 class Stack:
-    def __init__(self):
-        self.train = []
+    def __init__(self, parkings: List(Train)):
+        self.parking = []
 
     def isEmpty(self) -> None:
-        return self.train == []
+        return self.parking == []
 
-    def push(self, item: Train) -> None:
-        self.train.insert(0, item)
+    def push(self, item: Parking) -> None:
+        self.parking.insert(0, item)
 
-    def pop(self) -> Train:
-        return self.train.pop(0)
+    def pop(self) -> Parking:
+        return self.parking.pop(0)
 
     def size(self) -> int:
-        return len(self.train)
+        return len(self.parking)
