@@ -11,6 +11,8 @@ from .entities.station import Station
 from .entities.train import Train
 from .timer import Timer
 
+from .const import TIME_OF_TRAVEL
+
 
 class Simulator:
     def __init__(self):
@@ -51,12 +53,12 @@ class Simulator:
         sleep(2)
         self.__move_cars_at_the_station()
         self.__remove_car_from_the_garage()
+        sleep(TIME_OF_TRAVEL)
 
         self.__move_cars()
 
     def __remove_car_from_the_garage(self):
         sleep(1)
-        print('Removendo carro do pátio - %s' % self.timer.get_time())
         garages = self.network.garages
         lines = self.network.lines
 
@@ -64,6 +66,9 @@ class Simulator:
             for car_index, car in enumerate(garage.cars):
                 if(not car):
                     break
+
+                print('Removendo carro do pátio - %s' % self.timer.get_time())
+
                 [line_index, line] = self.__find_line_by_name(car.line)
 
                 line_stations = lines[line_index].stations
@@ -76,7 +81,7 @@ class Simulator:
                 # Remove car from garage
                 del self.network.garages[garage_index].cars[car_index]
 
-                sleep(3)
+                sleep(TIME_OF_TRAVEL)
 
                 print('Carro %s saiu da pátio e entrou no estação %s linha %s na plataforma %s - %s' % (
                     car.name, station.name, line.name.capitalize(), car.platform.upper(), self.timer.get_time()))
@@ -149,4 +154,3 @@ class Simulator:
             move_in_plataform_a(line_index, line)
             move_in_plataform_b(line_index, line)
             change_car_plataform(line)
-            sleep(5)
