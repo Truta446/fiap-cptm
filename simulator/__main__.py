@@ -76,10 +76,10 @@ class Simulator:
                 # Remove car from garage
                 del self.network.garages[garage_index].cars[car_index]
 
-                sleep(5)
+                sleep(3)
 
-                print('Carro %s saiu da pátio e entrou no estação %s linha %s na plataforma %s' % (
-                    car.name, station.name, line.name.capitalize(), car.platform.upper()))
+                print('Carro %s saiu da pátio e entrou no estação %s linha %s na plataforma %s - %s' % (
+                    car.name, station.name, line.name.capitalize(), car.platform.upper(), self.timer.get_time()))
 
                 # Break the loop to move one car at a time
                 break
@@ -95,42 +95,22 @@ class Simulator:
                 return index, garage
 
     def __move_cars_at_the_station(self):
-        last_car = None
+
         lines = self.network.lines
         for line_index, line in enumerate(lines):
-            for station_index, station in enumerate(line.stations):
+            for station_index in range(len(line.stations) - 1, 0, -1):
 
-                # Ensures that we will not generate an exception
-                if(len(line.stations) == station_index + 1):
-                    break
+                # Checks if the next station is empty, if the car is not moving
+                if (line.stations[station_index - 1].platforms['a']):
 
-                # Ensures that the same car will not be processed multiple times
-                if (not last_car == station.platforms['a']):
+                    car = line.stations[station_index - 1].platforms['a']
 
-                    last_car = station.platforms['a']
+                    line.stations[station_index].platforms['a'] = car
 
-                    # Checks if the next station is empty, if the car is not moving
-                    if (line.stations[station_index + 1].platforms['a']):
+                    print('O carro %s chegou a estação %s - %s' %
+                          (car.name, line.stations[station_index].name, self.timer.get_time()))
 
-                        car = line.stations[station_index + 1].platforms['a']
+                    self.network.lines[line_index].stations[station_index -
+                                                            1].platforms['a'] = None
 
-                        line.stations[station_index + 2].platforms['a'] = car
-
-                        print('O carro %s chegou a estação %s' %
-                              (car.name, line.stations[station_index + 2].name))
-
-                        self.network.lines[line_index].stations[station_index +
-                                                                1].platforms['a'] = None
-
-                    car = station.platforms['a']
-
-                    # Move the car to a nearby station
-                    if (car):
-
-                        line.stations[station_index +
-                                      1].platforms['a'] = car
-                        print('O carro %s chegou a estação %s' % (car.name, line.stations[station_index +
-                                                                                          1].name))
-
-                        self.network.lines[line_index].stations[station_index].platforms['a'] = None
-                        sleep(5)
+                    sleep(5)
