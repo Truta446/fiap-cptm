@@ -7,7 +7,7 @@ class Timer:
         self.__start_hour = hour
         self.__start_time = time
 
-    def get_time(self):
+    def get_time(self) -> str:
         time = datetime.now() - self.__start_time
         [hours, minutes] = self.__start_hour.split(sep=':', maxsplit=2)
 
@@ -27,12 +27,12 @@ class Timer:
 
         return '%02d:%02d' % (int(hours), raw_minutes)
 
-    def __fix_hour(self, hour: int):
+    def __fix_hour(self, hour: int) -> int:
         if(hour >= 24):
             return hour - 24
         return hour
 
-    def __fix_minute(self, minute: int):
+    def __fix_minute(self, minute: int) -> int:
         if(minute >= 60):
             return minute - 60
         return minute
