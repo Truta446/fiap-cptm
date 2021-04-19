@@ -71,7 +71,7 @@ class Simulator:
                 [station_index, station] = self.__find_station_by_garage_link(
                     stations=line_stations, garage_key=car.garage_key)
 
-                # Move car to station in destination plataform
+                # Move car to station in destination platform
                 self.network.lines[line_index].stations[station_index].platforms[car.platform] = car
                 # Remove car from garage
                 del self.network.garages[garage_index].cars[car_index]
@@ -97,7 +97,8 @@ class Simulator:
     def __move_cars_at_the_station(self):
 
         lines = self.network.lines
-        for line_index, line in enumerate(lines):
+
+        def move_in_plataform_a(line_index, line):
             for station_index in range(len(line.stations) - 1, 0, -1):
 
                 # Checks if the next station is empty, if the car is not moving
@@ -107,10 +108,45 @@ class Simulator:
 
                     line.stations[station_index].platforms['a'] = car
 
-                    print('O carro %s chegou a estação %s - %s' %
+                    print('O carro %s chegou a estação %s na plataforma A - %s' %
                           (car.name, line.stations[station_index].name, self.timer.get_time()))
 
                     self.network.lines[line_index].stations[station_index -
                                                             1].platforms['a'] = None
+                    return
 
-                    sleep(5)
+        def move_in_plataform_b(line_index, line):
+            for station_index in range(len(line.stations) - 1):
+
+                # Checks if the next station is empty, if the car is not moving
+                if (line.stations[station_index + 1].platforms['b']):
+
+                    car = line.stations[station_index + 1].platforms['b']
+
+                    line.stations[station_index].platforms['b'] = car
+
+                    print('O carro %s chegou a estação %s na plataforma B - %s' %
+                          (car.name, line.stations[station_index].name, self.timer.get_time()))
+
+                    self.network.lines[line_index].stations[station_index +
+                                                            1].platforms['b'] = None
+                    return
+
+        def change_car_plataform(line):
+            if(line.stations[-1].platforms['a']):
+                print('Mudando trêm de plataforma na estação %s' %
+                      (line.stations[-1].name))
+                line.stations[-1].platforms['b'] = line.stations[-1].platforms['a']
+                line.stations[-1].platforms['a'] = None
+
+            if(line.stations[0].platforms['b']):
+                print('Mudando trêm de plataforma na estação %s' %
+                      (line.stations[0].name))
+                line.stations[0].platforms['a'] = line.stations[0].platforms['b']
+                line.stations[0].platforms['b'] = None
+
+        for line_index, line in enumerate(lines):
+            move_in_plataform_a(line_index, line)
+            move_in_plataform_b(line_index, line)
+            change_car_plataform(line)
+            sleep(5)
